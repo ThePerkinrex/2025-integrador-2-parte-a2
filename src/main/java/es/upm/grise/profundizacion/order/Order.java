@@ -53,7 +53,7 @@ public class Order {
 		for (Item existing : items) {
 			// Igualdad de producto (se asume equals bien definido en Product o
 			// identificador)
-			if (existing.getProduct().equals(item.getProduct())) {
+			if (existing.getProduct().equals(item.getProduct()) && Double.compare(existing.getPrice(), price) == 0) {
 				sameProductExisting = existing;
 				break;
 			}
@@ -63,17 +63,10 @@ public class Order {
 			// No hay ningún item con ese product: añadimos directamente
 			items.add(item);
 			return;
-		}
-
-		// Ya existe item con el mismo product: decidir según el price
-		double existingPrice = sameProductExisting.getPrice();
-		if (Double.compare(existingPrice, price) == 0) {
+		}else{
 			// Mismo precio: sumamos cantidades en el item existente
 			int newQuantity = sameProductExisting.getQuantity() + quantity;
 			sameProductExisting.setQuantity(newQuantity);
-		} else {
-			// Precio diferente: añadimos el nuevo item como línea distinta
-			items.add(item);
 		}
 	}
 
